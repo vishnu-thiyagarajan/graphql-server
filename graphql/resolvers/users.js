@@ -77,7 +77,7 @@ module.exports = {
     register: async (_, args) => {
       let { username, email, password, confirmPassword } = args;
       let errors = {};
-
+      const UserNames = User.map((usr) => usr.username);
       try {
         if (email.trim() === "") errors.email = "email must not be empty";
         if (username.trim() === "")
@@ -86,7 +86,8 @@ module.exports = {
           errors.password = "password must not be empty";
         if (confirmPassword.trim() === "")
           errors.confirmPassword = "repeat password must not be empty";
-
+        if (UserNames.includes(username))
+          errors.username = "username taken already";
         if (password !== confirmPassword)
           errors.confirmPassword = "passwords must match";
 
